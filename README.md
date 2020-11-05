@@ -1,5 +1,21 @@
 # Nested Sampling
-  A simple look at nested sampling using MD in 2 dimensions.
+
+A simple look at nested sampling using molecular dynamics in 2 dimensions.
+
+
+#### Table of Contents
+[The Goals of this Tutorial](#the-goals-of-this-tutorial)
+
+[How to Use Julia](#how-to-use-julia)
+
+[Molecular Dynamics](#molecular-dynamics)
+
+[The Partition Function](#the-partition-function)
+
+[Nested Sampling](#nested-sampling)
+
+
+## The Goals of this Tutorial
 
 Phase diagrams are important! It sure would be cool if we could make good phase diagrams using computers.
 The nested sampling algorithm holds promise because it has an easier time dealing with phase transitions than 
