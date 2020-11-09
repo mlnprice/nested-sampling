@@ -22,3 +22,20 @@ The nested sampling algorithm holds promise because it has an easier time dealin
 some other computational methods, but is not too complicated to use. The main goal of this guide is to help you 
 get a more intuitive understanding of the nested sampling algoritm. Along the way, you'll learn about molecular
 dynamics, the partition function, and the Julia coding language.
+
+## How to Use Julia
+
+This tutorial is simple enough for someone with little coding experience. You can follow this tutorial using any 
+coding language you'd like, but the examples will use the Julia coding language. Whatever you choose, you'll need to be able to do
+some basic things:
+* Print values
+* Create, modify, and operate on array lists
+* Use for loops, while loops, and if statements 
+* Create and use functions
+* Make plots using arrays
+
+## Molecular Dynamics
+
+## The Partition Function
+
+## Nested Sampling
