@@ -26,7 +26,7 @@ dynamics, the partition function, and the Julia coding language.
 ## How to Use Julia
 
 This tutorial is simple enough for someone with little coding experience. You can follow this tutorial using any 
-coding language you'd like, but the examples will use the Julia coding language. Whatever you choose, you'll need to be able to do
+coding language you'd like, but the examples will use the Julia coding language. Whatever language you choose, you'll need to be able to do
 some basic things:
 * Print values
 * Create, modify, and operate on array lists
