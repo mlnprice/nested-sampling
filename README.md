@@ -64,6 +64,7 @@ and decorrelated to create a new, lower energy sample. This pattern repeats for 
 sample energies you record, the better your heat capacity calculations will be.
 
 CALCULATING ENERGIES
+
 At this point, you should now create a way to calculate the energy of a sample. Use the Lennard-Jones potential to 
 find the potential energy of each pair of particles, similar to how you found the forces between each particle for 
 running the MD simulations. Because you're using the method of molecular dynnamics to track our samples, you'll also
