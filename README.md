@@ -50,4 +50,25 @@ initialize the particles with a velocity toward the boundaries and watch the ani
 
 ## The Partition Function
 
+WHAT IS THE PARTITION FUNCTION?
+
+HOW THE PARTITION FUNCTION IS USED TO FIND HEAT CAPACITY
+
 ## Nested Sampling
+
+After the molecular dynamics tutorial, you should now be able to create, run, and keep track of simulations. These 
+samples will be key for your nested sampling algorithm. The pattern goes like this: the samples are allowed to run
+for several iterations. Then, the sample energies are calculated. The highest sample energy gets saved to a list for
+use in the heat capacity calculation. The sample it belongs to gets replaced by an existing sample, which is cooled 
+and decorrelated to create a new, lower energy sample. This pattern repeats for as long as you'd like. The more
+sample energies you record, the better your heat capacity calculations will be.
+
+CALCULATING ENERGIES
+At this point, you should now create a way to calculate the energy of a sample. Use the Lennard-Jones potential to 
+find the potential energy of each pair of particles, similar to how you found the forces between each particle for 
+running the MD simulations. Because you're using the method of molecular dynnamics to track our samples, you'll also
+need to calculate the kinetic energy of the samples.
+
+REPLACING AND DECORRELLATING
+
+CALCULATING HEAT CAPACITY
