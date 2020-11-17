@@ -6,33 +6,46 @@ A simple look at nested sampling using molecular dynamics in 2 dimensions.
 #### Table of Contents
 [The Goals of this Tutorial](#the-goals-of-this-tutorial)
 
-[How to Use Julia](#how-to-use-julia)
+[Note on Coding](#note-on-coding)
 
 [Molecular Dynamics](#molecular-dynamics)
 
+[Nested Sampling](#nested-sampling)
+* [Calculating Sample Energies](#calculating-sample-energies)
+* [Replacing and Decorrelating](#replacing-and-decorrelating)
+
 [The Partition Function](#the-partition-function)
 
-[Nested Sampling](#nested-sampling)
+[Heat Capacity](#heat-capacity)
 
+[Further Work](#further-work)
 
 ## The Goals of this Tutorial
 
-Phase diagrams are important! It sure would be cool if we could make good phase diagrams using computers.
-The nested sampling algorithm holds promise because it has an easier time dealing with phase transitions than 
-some other computational methods, but is not too complicated to use. The main goal of this guide is to help you 
+The main goal of this guide is to help you 
 get a more intuitive understanding of the nested sampling algoritm. Along the way, you'll learn about molecular
-dynamics, the partition function, and the Julia coding language.
+dynamics, the partition function, and the Julia coding language. 
 
-## How to Use Julia
+The reason for interest in the nested sampling 
+algorithm is its potential for creating phase diagrams. The nested sampling algorithm holds promise because it has 
+an easier time dealing with phase transitions than other computational methods without being too complicated to use.
+In fact, one can use nested sampling to create phase diagrams without any prior knowledge of the phase transitions 
+whatsoever. On top of that, temperature doesn't factor into the algorithm at all. After enough sample energies have 
+been collected, calculating the heat capacities remains only as a final step at the end of the whole process.
+
+
+## Note on Coding
 
 This tutorial is simple enough for someone with little coding experience. You can follow this tutorial using any 
 coding language you'd like, but the examples will use the Julia coding language. Whatever language you choose, 
-you'll need to be able to do some basic things:
+these are some basic things that you will need to be able to do:
+
 * Print values
 * Create, modify, and operate on array lists
 * Use for loops, while loops, and if statements 
 * Create and use functions
 * Make plots and animations using array lists
+
 
 ## Molecular Dynamics
 
@@ -48,28 +61,65 @@ crossed. Something else that sometimes happened is that crossing a boundary coul
 haywire and leave the box entirely. I found that the most helpful thing for troubleshooting boundary issues was to
 initialize the particles with a velocity toward the boundaries and watch the animations my code made.
 
-## The Partition Function
-
-WHAT IS THE PARTITION FUNCTION?
-
-HOW THE PARTITION FUNCTION IS USED TO FIND HEAT CAPACITY
 
 ## Nested Sampling
 
-After the molecular dynamics tutorial, you should now be able to create, run, and keep track of simulations. These 
+After the molecular dynamics tutorial, you should now be able to create, run, and keep track of simulations, or samples. These 
 samples will be key for your nested sampling algorithm. The pattern goes like this: the samples are allowed to run
-for several iterations. Then, the sample energies are calculated. The highest sample energy gets saved to a list for
-use in the heat capacity calculation. The sample it belongs to gets replaced by an existing sample, which is cooled 
+for some amount of time. Then, the sample energies are calculated. The highest sample energy gets saved to a list for
+use in the heat capacity calculation. The sample it belongs to gets replaced by an existing sample, which is "cooled" 
 and decorrelated to create a new, lower energy sample. This pattern repeats for as long as you'd like. The more
 sample energies you record, the better your heat capacity calculations will be.
 
-CALCULATING ENERGIES
+### Calculating Sample Energies
 
 At this point, you should now create a way to calculate the energy of a sample. Use the Lennard-Jones potential to 
 find the potential energy of each pair of particles, similar to how you found the forces between each particle for 
-running the MD simulations. Because you're using the method of molecular dynnamics to track our samples, you'll also
-need to calculate the kinetic energy of the samples.
+running the MD simulations. THIS IS THE LENNARD JONES POTENTIAL: XXX
+You should be able to use the same distances between particles as you did in your force calculations for the 
+molecular dynamics simulation. Take care to only calculate the potential once for each pair of particles. 
+If you calculate the potential with each individual particle in mind rather than each pair, you'll need to divide
+your total potential energy by 2 in order to get the correct value.
+If we were using a different method for simulating our particles (such as Monte-Carlo) 
+that would be the end of our energy calculations. However, you're using the method of molecular dynamics to track 
+your samples, so you'll also need to calculate the kinetic energy of the samples. In the same frame that you find
+the potential energies, calculate the kinetic energy of each particle using the classical formula (KE = 1/2 m v^2).
+The particle velocities can be found using verlet method from your molecular dynamics calculations simply enough,
+but you need to take care that the velocities you use are from the same point in timae as the positions you used in
+the Lennard-Jones potential calculations.
+Lastly, find the total energy of each sample by summing their respective potential and kinetic energies together.
 
-REPLACING AND DECORRELLATING
+### Replacing and Decorrelating
 
-CALCULATING HEAT CAPACITY
+Now that you've calculated each sample's potential and kinetic energy and recorded the highest total sample energy,
+it's time to replace the high-energy sample and decorrelate it. To do that... copy another random sample's particle locations
+and trajectories and paste them over the high-energy sample's.
+
+Decorrelating is a bit weird since we're using MD. Ideally we'd have our samples "cool" by transferring energy to some 
+outside heat sink. This isn't something we can easily do with molecular dynamics. If we do nothing, the law of conservation 
+of energy will prevent our sample energies from decreasing over time, which is not what we want. The easiest way to leech
+energy from our samples is to slightly decrease the kinetic energy. To do this, you'll want to copy your method of initializing
+the samples. Grab the sample's velocities and scale them down just a little bit. Use the copied sample's particle locations,
+re-scaled particle velocities, and your sample initialization method to initialize the new sample. Run the copied sample for a 
+little bit, and check that its total energy is lower than the most recently recorded highest energy.
+
+At this point, you now have a fresh decorrelated sample with a slightly lower energy, and you can repeat the process of
+running your samples before recording, replacing, and decorrelating the next high-energy sample.
+
+
+## The Partition Function
+
+What is it and how do you calculate it?
+
+
+## Heat Capacity
+
+How to use the partition function to calculate heat capacity
+
+
+## Further Work
+
+Phase diagrams!
+
+Other potentials, other simulation methods, 3 dimensions...
+
