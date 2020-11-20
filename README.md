@@ -20,6 +20,8 @@ A simple look at nested sampling using molecular dynamics in 2 dimensions.
 
 [Further Work](#further-work)
 
+[Resources](#resources)
+
 ## The Goals of this Tutorial
 
 The main goal of this guide is to help you 
@@ -57,7 +59,7 @@ and animations of your simulations to see if things are acting correctly.
 I found that the trickiest part of coding my first MD simulations was implementing the periodic boundary conditions.
 I had trouble making it so the particles could see each other across the boundary. There were many situations where
 a pair of particles would be crossing the boundary together, but lose sight of each other and drift apart as they 
-crossed. Something else that sometimes happened is that crossing a boundary could cause particlee to go totally
+crossed. Something else that sometimes happened is that crossing a boundary could cause particle to go totally
 haywire and leave the box entirely. I found that the most helpful thing for troubleshooting boundary issues was to
 initialize the particles with a velocity toward the boundaries and watch the animations my code made.
 
@@ -73,35 +75,41 @@ sample energies you record, the better your heat capacity calculations will be.
 
 ### Calculating Sample Energies
 
-At this point, you should now create a way to calculate the energy of a sample. Use the Lennard-Jones potential to 
-find the potential energy of each pair of particles, similar to how you found the forces between each particle for 
-running the MD simulations. THIS IS THE LENNARD JONES POTENTIAL: XXX
-You should be able to use the same distances between particles as you did in your force calculations for the 
-molecular dynamics simulation. Take care to only calculate the potential once for each pair of particles. 
-If you calculate the potential with each individual particle in mind rather than each pair, you'll need to divide
-your total potential energy by 2 in order to get the correct value.
-If we were using a different method for simulating our particles (such as Monte-Carlo) 
-that would be the end of our energy calculations. However, you're using the method of molecular dynamics to track 
-your samples, so you'll also need to calculate the kinetic energy of the samples. In the same frame that you find
+At this point, you should now create a way to calculate the energy of a sample. Use the Lennard-Jones potential 
+(equation 9.6 in Giordano Chapter 9) to find the potential energy of each pair of particles, similar to how you 
+found the forces between each particle for running the MD simulations.You should be able to use the same distances 
+between particles as you did in your force calculations for the molecular dynamics simulation. Take care to only 
+calculate the potential once for each pair of particles. If you calculate the potential with each individual 
+particle in mind rather than each pair, you'll need to divide your total potential energy by 2 in order to 
+get the correct value.
+
+If we were using a different method for simulating our particles (such as Monte-Carlo) that would be the end of 
+our energy calculations. However, using the method of molecular dynamics to track your samples will require us 
+to calculate the kinetic energy of the samples as well. In the same frame that you find
 the potential energies, calculate the kinetic energy of each particle using the classical formula (KE = 1/2 m v^2).
 The particle velocities can be found using verlet method from your molecular dynamics calculations simply enough,
 but you need to take care that the velocities you use are from the same point in timae as the positions you used in
 the Lennard-Jones potential calculations.
+
 Lastly, find the total energy of each sample by summing their respective potential and kinetic energies together.
 
 ### Replacing and Decorrelating
 
 Now that you've calculated each sample's potential and kinetic energy and recorded the highest total sample energy,
-it's time to replace the high-energy sample and decorrelate it. To do that... copy another random sample's particle locations
-and trajectories and paste them over the high-energy sample's.
+it's time to replace the high-energy sample and decorrelate it. To do that, simply copy another random sample's particle 
+locations and trajectories and use them to overwrite those of the high-energy sample.
 
 Decorrelating is a bit weird since we're using MD. Ideally we'd have our samples "cool" by transferring energy to some 
-outside heat sink. This isn't something we can easily do with molecular dynamics. If we do nothing, the law of conservation 
-of energy will prevent our sample energies from decreasing over time, which is not what we want. The easiest way to leech
-energy from our samples is to slightly decrease the kinetic energy. To do this, you'll want to copy your method of initializing
-the samples. Grab the sample's velocities and scale them down just a little bit. Use the copied sample's particle locations,
-re-scaled particle velocities, and your sample initialization method to initialize the new sample. Run the copied sample for a 
-little bit, and check that its total energy is lower than the most recently recorded highest energy.
+outside heat sink. This isn't something we can easily do with molecular dynamics, but if we do nothing, the law of conservation 
+of energy will prevent our sample energies from decreasing over time. The easiest way to leech energy from our samples is to 
+slightly decrease the kinetic energy.
+
+Since the molecular dynamics method focuses on position rather than velocity for calculating trajectories, it might seem like 
+we're in a tricky spot. However, our method for initializing the samples DOES use velocity information to create a fictitious 
+previous position for use by the Verlet method. Our strategy for decorrelating the copied sample then will be to essentially 
+reinitialize it using its own particle velocities scaled-down and its current particle positions. After initializing the copied sample with
+its newly modified previous position information, run the sample for a little bit. At the end of the run, check that its total energy 
+is lower than the most recently recorded highest energy.
 
 At this point, you now have a fresh decorrelated sample with a slightly lower energy, and you can repeat the process of
 running your samples before recording, replacing, and decorrelating the next high-energy sample.
@@ -123,3 +131,13 @@ Phase diagrams!
 
 Other potentials, other simulation methods, 3 dimensions...
 
+
+## Resources
+
+Most of what I have learned about molecular dynamics, nested sampling, and thermodynamics can be found in these sources.
+Good luck!
+
+Giordano Chapter 9 pdf
+Efficient Sampling (Pártay, Bartók, Csányi) pdf
+Nested sampling for computational thermodynamics (Pártay) pdf
+An Introduction to Thermal Physics (Schroeder) Textbook
