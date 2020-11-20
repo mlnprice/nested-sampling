@@ -138,6 +138,9 @@ Most of what I have learned about molecular dynamics, nested sampling, and therm
 Good luck!
 
 Giordano Chapter 9 pdf
+
 Efficient Sampling (Pártay, Bartók, Csányi) pdf
+
 Nested sampling for computational thermodynamics (Pártay) pdf
+
 An Introduction to Thermal Physics (Schroeder) Textbook
