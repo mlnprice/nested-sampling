@@ -14,9 +14,8 @@ A simple look at nested sampling using molecular dynamics in 2 dimensions.
 * [Calculating Sample Energies](#calculating-sample-energies)
 * [Replacing and Decorrelating](#replacing-and-decorrelating)
 
-[The Partition Function](#the-partition-function)
-
 [Heat Capacity](#heat-capacity)
+* [The Partition Function](#the-partition-function)
 
 [Further Work](#further-work)
 
@@ -112,17 +111,30 @@ its newly modified previous position information, run the sample for a little bi
 is lower than the most recently recorded highest energy.
 
 At this point, you now have a fresh decorrelated sample with a slightly lower energy, and you can repeat the process of
-running your samples before recording, replacing, and decorrelating the next high-energy sample.
-
-
-## The Partition Function
-
-What is it and how do you calculate it?
+running your samples before recording, replacing, and decorrelating the next high-energy sample. The more you run through this
+algorithm, the more information you'll have for calculating the heat capacity of our Lennard-Jones particles.
 
 
 ## Heat Capacity
 
-How to use the partition function to calculate heat capacity
+We can get information about the heat capacity by using the list of sample energies collected during the nested sampling algorithm. 
+In order to do this, there are a couple of things we need to do. First, generate a list of temperatures that we want to know 
+the heat capacity for. For each temperature in the list, we'll use our sample energies to calculate an estimate of the partition 
+function, and then calculate the heat capacity at that temperature using both the sample energies and the estimate for the partition 
+function.
+
+### The Partition Function
+
+The partition function Z is a dimensionless number that contains information about every possible state of a system. It is defined 
+as the sum of all the Boltzmann factors for a system, and can be used to find the probability of a specific state by dividing a 
+stat'es Boltzmann factor by the partition function. Its property of being able to "see" every possible state of a system makes it 
+useful for finding interesting thermodynamic quantities, such as heat capacity.
+
+Most of what I did for this part came from pages 1-8 of "Efficient sampling of atomic configurational spaces". Equation 16 on page 8
+is what I used for calculating the heat capacity, but there are a few differences that should be kept in mind. First, our sampled
+energies include both kinetic and potential energy. In the paper, the sampled energies En only refer to potential energy, while the 
+constant 3Nk/2 accounts for kinetic energy. What I've done so far to get around this is to use Equation 16 with the sampled total 
+energies and just leave off the 3Nk/2 term. I haven't been able to figure out if this is correct or not
 
 
 ## Further Work
@@ -135,7 +147,7 @@ Other potentials, other simulation methods, 3 dimensions...
 ## Resources
 
 Most of what I have learned about molecular dynamics, nested sampling, and thermodynamics can be found in these sources.
-Good luck!
+
 
 Giordano Chapter 9 pdf
 
