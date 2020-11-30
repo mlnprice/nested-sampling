@@ -148,11 +148,16 @@ Other potentials, other simulation methods, 3 dimensions...
 
 Most of what I have learned about molecular dynamics, nested sampling, and thermodynamics can be found in these sources.
 
+These rescources can be found in the resources folder of this repository.
+* _Giordano Chapter 9_ pdf
+  * This is a tutorial for creating a molecular dynamics simulation.
+* _Efficient Sampling_ (Pártay, Bartók, Csányi) pdf
+  * This has useful information about nested sampling and heat capacity calculations.
 
-Giordano Chapter 9 pdf
+This file was too big to add to the repository, but can be easily found using a Google Search.
+* _Nested sampling for computational thermodynamics_ (Pártay) pdf
+  * This gives a good overview of the application of nested sampling for thermodynamics.
 
-Efficient Sampling (Pártay, Bartók, Csányi) pdf
-
-Nested sampling for computational thermodynamics (Pártay) pdf
-
-An Introduction to Thermal Physics (Schroeder) Textbook
+Dr. Hart can help you get access to a copy of this book.
+* _An Introduction to Thermal Physics (Schroeder)_ Textbook
+  * This was useful to me for understanding the partition function.
