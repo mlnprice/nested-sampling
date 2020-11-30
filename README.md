@@ -159,5 +159,5 @@ This file was too big to add to the repository, but can be easily found using a 
   * This gives a good overview of the application of nested sampling for thermodynamics.
 
 Dr. Hart can help you get access to a copy of this book.
-* _An Introduction to Thermal Physics (Schroeder)_ Textbook
+* _An Introduction to Thermal Physics_ (Schroeder) Textbook
   * This was useful to me for understanding the partition function.
